@@ -1,5 +1,6 @@
 package practice.jbehave.mapper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,13 +13,17 @@ import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.InstanceStepsFactory;
 
-import practice.jbehave.steps.VisitWebSteps;
+import practice.jbehave.steps.LoginFacebookSteps;
+import practice.jbehave.steps.VisitWikipediaSteps;
 
 public class StoriesEntryPoint extends JUnitStories {
 
 	public StoriesEntryPoint() {
 		super();
-		this.configuredEmbedder().candidateSteps().add(new VisitWebSteps());
+		List<CandidateSteps> steps = new ArrayList<CandidateSteps>();
+		steps.add(new VisitWikipediaSteps());
+		steps.add(new LoginFacebookSteps());
+		this.configuredEmbedder().candidateSteps().addAll(steps);
 	}
 
 	@Override
@@ -27,7 +32,7 @@ public class StoriesEntryPoint extends JUnitStories {
 				.useStoryReporterBuilder(
 						new StoryReporterBuilder().withFormats(Format.CONSOLE, Format.STATS, Format.HTML));
 	}
-	
+
 	@Override
 	public List<CandidateSteps> candidateSteps() {
 		return new InstanceStepsFactory(configuration(), this).createCandidateSteps();
@@ -35,8 +40,9 @@ public class StoriesEntryPoint extends JUnitStories {
 
 	@Override
 	protected List<String> storyPaths() {
-		return Arrays.asList("practice/jbehave/stories/VisitWikipediaTestcase.story");
-				
+		return Arrays.asList("practice/jbehave/stories/VisitWikipediaAcceptanceTestCriteria.story",
+				"practice/jbehave/stories/LoginFacebookATC.story");
+
 	}
 
 }
